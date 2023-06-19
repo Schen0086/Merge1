@@ -13,6 +13,7 @@ import com.example.streamlinenavbar.model.UserDetail;
 import com.example.streamlinenavbar.util.CustomToast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Register extends AppCompatActivity {
 
@@ -22,6 +23,7 @@ public class Register extends AppCompatActivity {
 
     FirebaseAuth mFirebaseAuth;
     FirebaseDatabase firebaseDatabase;
+    FirebaseFirestore firebaseFirestore;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,6 +41,8 @@ public class Register extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
 
         btnSignUp.setOnClickListener(view -> {
             final String email = emailId.getText().toString();

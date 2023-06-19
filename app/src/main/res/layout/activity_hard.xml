@@ -8,9 +8,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/modeLayout"
         android:layout_width="86dp"
-        android:layout_height="668dp"
+        android:layout_height="match_parent"
         android:background="@drawable/white_grey_border_right"
-        android:onClick="Hard"
         app:layout_constraintBottom_toTopOf="@+id/bottomBar"
         app:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
         app:layout_constraintStart_toStartOf="parent"
