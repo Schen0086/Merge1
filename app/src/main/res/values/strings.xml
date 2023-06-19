@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">StreamLine Navbar</string>
     <string name="join_a_team">Join a team</string>
-    <string name="link">
-        Click <a href="https://www.w3schools.com/java/">here</a> to Java starter.
-    </string>
+    <string name="link1">Click <a href="https://www.w3schools.com/java/">here</a> to start learning Java in w3schools.</string>
+    <string name="link2">Click <a href="https://www.tutorialspoint.com/android/android_studio.htm">here</a> to start learning about android studio.</string>
+    <string name="link3">Click <a href="https://www.javatpoint.com/java-tutorial">here</a> and attempt some of the examples on this website.</string>
+    <string name="link4">Click <a href="https://www.youtube.com/watch?v=tZvjSl9dswg">here</a> and follow this video through to go more in depth and learn about android studio.</string>
     <string name="get_started">Get started</string>
     <string name="welcome">Welcome</string>
     <string name="textview">TextView</string>

@@ -29,6 +29,34 @@ public class Getstarted extends AppCompatActivity {
         TextView textView = findViewById(R.id.textView9);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
 
+
+        Button midBtn =  findViewById(R.id.Mid);
+
+        midBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Getstarted.this, Medium.class);
+                intent.putExtra("name", getIntent().getStringExtra("name"));
+                intent.putExtra("email", getIntent().getStringExtra("email"));
+                intent.putExtra("age", getIntent().getStringExtra("age"));
+                startActivity(intent);
+            }
+        });
+
+
+        Button hardBtn = findViewById(R.id.Hard);
+        hardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(Getstarted.this, Hard.class);
+                intent2.putExtra("name", getIntent().getStringExtra("name"));
+                intent2.putExtra("email", getIntent().getStringExtra("email"));
+                intent2.putExtra("age", getIntent().getStringExtra("age"));
+                startActivity(intent2);
+            }
+        });
+
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
@@ -102,30 +130,5 @@ public class Getstarted extends AppCompatActivity {
         intent.putExtra("age", getIntent().getStringExtra("age"));
         startActivity(intent);
         finish();
-    }
-
-
-    public void Medium(View view) {
-        Button btn =  findViewById(R.id.Mid);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Getstarted.this, Medium.class));
-            }
-        });
-    };
-    public void hard(View view) {
-        Button btn2 = findViewById(R.id.Hard);
-
-
-
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Getstarted.this, Hard.class);
-                startActivity(i);
-            }
-        });
     }
 }

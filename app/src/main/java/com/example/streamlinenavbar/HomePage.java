@@ -25,6 +25,53 @@ public class HomePage extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
 
+
+        Button getStartedBtn = (Button)findViewById(R.id.getStarted);
+
+        getStartedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, Getstarted.class);
+                intent.putExtra("name", getIntent().getStringExtra("name"));
+                intent.putExtra("email", getIntent().getStringExtra("email"));
+                intent.putExtra("age", getIntent().getStringExtra("age"));
+                startActivity(intent);
+            }
+
+        });
+
+
+        Button moreBtn = (Button)findViewById(R.id.More);
+
+        moreBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, More.class);
+                intent.putExtra("name", getIntent().getStringExtra("name"));
+                intent.putExtra("email", getIntent().getStringExtra("email"));
+                intent.putExtra("age", getIntent().getStringExtra("age"));
+                startActivity(intent);
+            }
+        });
+
+
+        Button teamBtn = findViewById(R.id.Team);
+
+        teamBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, team.class);
+                intent.putExtra("name", getIntent().getStringExtra("name"));
+                intent.putExtra("email", getIntent().getStringExtra("email"));
+                intent.putExtra("age", getIntent().getStringExtra("age"));
+                startActivity(intent);
+
+            }
+        });
+
+
+
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -98,50 +145,5 @@ public class HomePage extends AppCompatActivity {
         finish();
     }
 
-    public void getStarted(View view) {
-        Button btn = (Button)findViewById(R.id.getStarted);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this, Getstarted.class);
-                intent.putExtra("name", getIntent().getStringExtra("name"));
-                intent.putExtra("email", getIntent().getStringExtra("email"));
-                intent.putExtra("age", getIntent().getStringExtra("age"));
-                startActivity(intent);
-            }
-
-        });
-
-    }
-    public void More(View view) {
-        Button btn = (Button)findViewById(R.id.More);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this, More.class);
-                intent.putExtra("name", getIntent().getStringExtra("name"));
-                intent.putExtra("email", getIntent().getStringExtra("email"));
-                intent.putExtra("age", getIntent().getStringExtra("age"));
-                startActivity(intent);
-            }
-        });
-    }
-    public void Team(View view) {
-        Button btn2 = findViewById(R.id.Team);
-
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this, team.class);
-                intent.putExtra("name", getIntent().getStringExtra("name"));
-                intent.putExtra("email", getIntent().getStringExtra("email"));
-                intent.putExtra("age", getIntent().getStringExtra("age"));
-                startActivity(intent);
-
-            }
-        });
-    }
 
 }
