@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".More">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="More page"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.412"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.069" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="230dp"
+        android:layout_height="149dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.552"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.772">
+
+        <Button
+            android:id="@+id/getStarted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="Getstarted"
+            android:text="Practice/Resources" />
+
+        <Button
+            android:id="@+id/Timetable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="timetable"
+            android:text="Timetable" />
+
+        <Button
+            android:id="@+id/Contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="Contact"
+            android:text="Contact us" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/Infuse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About infuse"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <TextView
+        android:id="@+id/About"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Through the Investing in future Software Engineers program at Ericsson Athlone, we are committed to investing in future software engineers. We have a range of initiatives that focus on creating enthusiasm around software engineering, with the aim of motivating students at all levels of education to consider a career in technology and software engineering."
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.385" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:id="@+id/bottomBar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/bottomNavView_Bar"
+            android:background="@drawable/white_grey_border_bottom"
+            app:menu="@menu/bottom_navigation_menu">
+
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

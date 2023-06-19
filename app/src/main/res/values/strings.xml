@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">StreamLine Navbar</string>
+    <string name="join_a_team">Join a team</string>
+    <string name="link">
+        Click <a href="https://www.w3schools.com/java/">here</a> to Java starter.
+    </string>
+    <string name="get_started">Get started</string>
+    <string name="welcome">Welcome</string>
+    <string name="textview">TextView</string>
+    <string name="easy">Easy</string>
+    <string name="mid">Mid</string>
+    <string name="title_activity_hard">Hard</string>
+    <string name="team">Teams</string>
+    <string name="teams">Teams</string>
+    <string name="create_your_team">Create your team</string>
+
+</resources>
