@@ -1,50 +1,21 @@
 package com.example.streamlinenavbar;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class More extends AppCompatActivity {
+public class ContactUs extends AppCompatActivity {
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_more);
-
-        Button btn =  findViewById(R.id.getStarted);
-        Button btn2 = findViewById(R.id.Contact);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(More.this, Getstarted.class);
-                intent1.putExtra("name", getIntent().getStringExtra("name"));
-                intent1.putExtra("email", getIntent().getStringExtra("email"));
-                intent1.putExtra("age", getIntent().getStringExtra("age"));
-                startActivity(intent1);
-            }
-        });
-
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(More.this, ContactUs.class);
-                intent1.putExtra("name", getIntent().getStringExtra("name"));
-                intent1.putExtra("email", getIntent().getStringExtra("email"));
-                intent1.putExtra("age", getIntent().getStringExtra("age"));
-                startActivity(intent1);
-            }
-        });
+        setContentView(R.layout.activity_contact_us);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -60,7 +31,7 @@ public class More extends AppCompatActivity {
                 if (itemId == R.id.ic_arrow) {
                     onBackPressed();
                 } else if (itemId == R.id.ic_team) {
-                    Intent intent1 = new Intent(More.this, team.class);
+                    Intent intent1 = new Intent(ContactUs.this, team.class);
                     intent1.putExtra("name", getIntent().getStringExtra("name"));
                     intent1.putExtra("email", getIntent().getStringExtra("email"));
                     intent1.putExtra("age", getIntent().getStringExtra("age"));
@@ -68,7 +39,7 @@ public class More extends AppCompatActivity {
                     startActivity(intent1);
                     finish();
                 } else if (itemId == R.id.ic_home) {
-                    Intent intent2 = new Intent(More.this, HomePage.class);
+                    Intent intent2 = new Intent(ContactUs.this, HomePage.class);
                     intent2.putExtra("name", getIntent().getStringExtra("name"));
                     intent2.putExtra("email", getIntent().getStringExtra("email"));
                     intent2.putExtra("age", getIntent().getStringExtra("age"));
@@ -76,7 +47,7 @@ public class More extends AppCompatActivity {
                     startActivity(intent2);
                     finish();
                 } else if (itemId == R.id.ic_more) {
-                    Intent intent3 = new Intent(More.this, More.class);
+                    Intent intent3 = new Intent(ContactUs.this, More.class);
                     intent3.putExtra("name", getIntent().getStringExtra("name"));
                     intent3.putExtra("email", getIntent().getStringExtra("email"));
                     intent3.putExtra("age", getIntent().getStringExtra("age"));
@@ -84,7 +55,7 @@ public class More extends AppCompatActivity {
                     startActivity(intent3);
                     finish();
                 } else if (itemId == R.id.ic_profile) {
-                    Intent intent4 = new Intent(More.this, ProfilePage.class);
+                    Intent intent4 = new Intent(ContactUs.this, ProfilePage.class);
                     intent4.putExtra("name", getIntent().getStringExtra("name"));
                     intent4.putExtra("email", getIntent().getStringExtra("email"));
                     intent4.putExtra("age", getIntent().getStringExtra("age"));
@@ -96,13 +67,14 @@ public class More extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         String previousActivity = MyApp.getPreviousActivity();
         if (previousActivity != null) {
             try {
                 Class<?> previousActivityClass = Class.forName(previousActivity);
-                Intent intent = new Intent(More.this, previousActivityClass);
+                Intent intent = new Intent(ContactUs.this, previousActivityClass);
                 intent.putExtra("name", getIntent().getStringExtra("name"));
                 intent.putExtra("email", getIntent().getStringExtra("email"));
                 intent.putExtra("age", getIntent().getStringExtra("age"));
@@ -119,12 +91,11 @@ public class More extends AppCompatActivity {
     private void navigateToActivity(Class<?> activityClass) {
         String previousActivity = getClass().getName();
         MyApp.setPreviousActivity(previousActivity);
-        Intent intent = new Intent(More.this, activityClass);
+        Intent intent = new Intent(ContactUs.this, activityClass);
         intent.putExtra("name", getIntent().getStringExtra("name"));
         intent.putExtra("email", getIntent().getStringExtra("email"));
         intent.putExtra("age", getIntent().getStringExtra("age"));
         startActivity(intent);
         finish();
     }
-
 }
