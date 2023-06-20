@@ -2,8 +2,12 @@ package com.example.streamlinenavbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +26,13 @@ public class ContactUs extends AppCompatActivity {
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(3);
         menuItem.setChecked(true);
+
+        TextView websiteTextView = findViewById(R.id.website);
+        String websiteText = getString(R.string.website);
+        Spanned spannedText = Html.fromHtml(websiteText, Html.FROM_HTML_MODE_LEGACY);
+        websiteTextView.setText(spannedText);
+        websiteTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

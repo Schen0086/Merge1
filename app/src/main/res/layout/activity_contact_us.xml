@@ -4,126 +4,217 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ContactUs">
 
     <TextView
         android:id="@+id/contactustitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
         android:text="Contact Us"
         android:textSize="35dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView android:id="@+id/manager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Infuse Program Manager: Barbara Quinn"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactustitle" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/contactustitle"
+            app:layout_constraintBottom_toTopOf="@id/bottomBar">
 
-    <TextView android:id="@+id/emailManager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Email: barabara.quinn@ericsson.com"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manager" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    <TextView android:id="@+id/business1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
-        android:text="Business Student: Cormac Delaney"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactustitle" />
+                <TextView
+                    android:id="@+id/manager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="36dp"
+                    android:text="Infuse Program Manager: Barbara Quinn"
+                    android:textSize="20dp" />
 
-    <TextView android:id="@+id/emailbusiness1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Email: cormac.delaney@ericsson.com"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/business1" />
+                <TextView
+                    android:id="@+id/emailManager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email: barabara.quinn@ericsson.com"
+                    android:textSize="20dp" />
 
-    <TextView android:id="@+id/business2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="256dp"
-        android:text="Business Student: Dylan Fagan"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactustitle" />
+                <TextView
+                    android:id="@+id/business1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Business Student: Cormac Delaney"
+                    android:textSize="20dp" />
 
-    <TextView android:id="@+id/emailbusiness2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Email: dylan.fagan@ericsson.com"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/business2" />
+                <TextView
+                    android:id="@+id/emailbusiness1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email: cormac.delaney@ericsson.com"
+                    android:textSize="20dp" />
 
-    <TextView android:id="@+id/engineer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="354dp"
-        android:text="Engineer: Aaron Mcevoy"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactustitle" />
+                <TextView
+                    android:id="@+id/business2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Business Student: Mohamad Abo Haileh"
+                    android:textSize="20dp" />
 
-    <TextView android:id="@+id/emailengineer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Email: aaron.mcevoy@ericsson.com"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/engineer" />
+                <TextView
+                    android:id="@+id/emailbusiness2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email: mohamad.abo.haileh@ericsson.com"
+                    android:textSize="20dp" />
 
-    <TextView android:id="@+id/phoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Call us at: (090) 643 1000"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailengineer" />
+                <TextView
+                    android:id="@+id/business3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Business Student: Dylan Fagan"
+                    android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/website"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/link5"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
+                <TextView
+                    android:id="@+id/emailbusiness3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email: dylan.fagan@ericsson.com"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/intern1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Intern: Abeer Abouhajar"
+                    android:textSize="20dp" />
+
+
+                <TextView
+                    android:id="@+id/emailintern1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email: abeer.abouhajar@ericsson.com"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/intern2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Intern: Ciara Dowling"
+                    android:textSize="20dp" />
+
+
+                <TextView
+                    android:id="@+id/emailintern2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email: ciara.dowling@ericsson.com"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/intern3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Engineer: Clodagh Kelly"
+                    android:textSize="20dp" />
+
+
+                <TextView
+                    android:id="@+id/emailintern3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email: clodagh.kelly@ericsson.com"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/intern4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Intern: Ellen O'hara"
+                    android:textSize="20dp" />
+
+
+                <TextView
+                    android:id="@+id/emailintern4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email: ellen.ohara@ericsson.com"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/intern5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Intern: Lauren Clerkin"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/emailintern5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email: lauren.clerkin@ericsson.com"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/programmer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Programmer: Katie Keegan"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/emailprogrammer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email: katie.keegan@ericsson.com"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/engineer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Engineer: Aaron Mcevoy"
+                    android:textSize="20dp" />
+
+
+                <TextView
+                    android:id="@+id/emailengineer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email: aaron.mcevoy@ericsson.com"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/phoneNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:text="Call us at: (090) 643 1000"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/website"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20dp" />
+            </LinearLayout>
+        </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"

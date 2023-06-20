@@ -5,7 +5,7 @@
     <string name="link2">Click <a href="https://www.tutorialspoint.com/android/android_studio.htm">here</a> to start learning about android studio.</string>
     <string name="link3">Click <a href="https://www.javatpoint.com/java-tutorial">here</a> and attempt some of the examples on this website.</string>
     <string name="link4">Click <a href="https://www.youtube.com/watch?v=tZvjSl9dswg">here</a> and follow this video through to go more in depth and learn about android studio.</string>
-    <string name="link5">Click <a href="https://www.ericsson.com/en/about-us/company-facts/ericsson-worldwide/ireland">here</a> to view the Ericsson website.</string>
+    <string name="website">Click &lt;a href="https://www.ericsson.com/en/about-us/company-facts/ericsson-worldwide/ireland"&gt;here&lt;/a&gt; to view the Ericsson website.</string>
     <string name="get_started">Get started</string>
     <string name="welcome">Welcome</string>
     <string name="textview">TextView</string>

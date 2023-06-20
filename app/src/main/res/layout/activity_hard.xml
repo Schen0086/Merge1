@@ -11,7 +11,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/white_grey_border_right"
         app:layout_constraintBottom_toTopOf="@+id/bottomBar"
-        app:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -19,21 +18,19 @@
             android:id="@+id/getStarted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="easy"
             android:text="@string/easy"
             android:textSize="13sp"
+            android:onClick="easy"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.212" />
+            app:layout_constraintVertical_bias="0.213" />
 
         <Button
             android:id="@+id/Mid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="Medium"
             android:text="@string/mid"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -46,6 +43,7 @@
             android:id="@+id/Hard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="hard"
             android:text="Hard"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,8 +64,7 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.633"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/modeLayout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -77,8 +74,7 @@
         android:layout_height="581dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.633"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/modeLayout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.36">
 
