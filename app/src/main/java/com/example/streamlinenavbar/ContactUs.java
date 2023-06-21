@@ -33,7 +33,6 @@ public class ContactUs extends AppCompatActivity {
         websiteTextView.setText(spannedText);
         websiteTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

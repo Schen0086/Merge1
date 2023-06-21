@@ -69,9 +69,6 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-
-
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -131,6 +128,8 @@ public class HomePage extends AppCompatActivity {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+        } else {
+            super.onBackPressed();
         }
     }
 

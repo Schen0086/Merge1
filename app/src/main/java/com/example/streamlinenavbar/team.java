@@ -31,13 +31,7 @@ public class team extends AppCompatActivity {
                 if (itemId == R.id.ic_arrow) {
                     onBackPressed();
                 } else if (itemId == R.id.ic_team) {
-                    Intent intent1 = new Intent(team.this, team.class);
-                    intent1.putExtra("name", getIntent().getStringExtra("name"));
-                    intent1.putExtra("email", getIntent().getStringExtra("email"));
-                    intent1.putExtra("age", getIntent().getStringExtra("age"));
-                    navigateToActivity(team.class);
-                    startActivity(intent1);
-                    finish();
+
                 } else if (itemId == R.id.ic_home) {
                     Intent intent2 = new Intent(team.this, HomePage.class);
                     intent2.putExtra("name", getIntent().getStringExtra("name"));
