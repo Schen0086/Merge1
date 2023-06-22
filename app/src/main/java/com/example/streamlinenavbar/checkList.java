@@ -1,62 +1,43 @@
 package com.example.streamlinenavbar;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class More extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+public class checkList extends AppCompatActivity {
+    private ArrayList<String> items;
+    private ListView list;
+    private Button button;
+    private ArrayAdapter<String> itemsadapter;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_more);
+        setContentView(R.layout.activity_check_list);
 
-        Button btn =  findViewById(R.id.getStarted);
-        Button btn2 = findViewById(R.id.Contact);
-        Button btn3 = findViewById(R.id.Timetable);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(More.this, Getstarted.class);
-                intent1.putExtra("name", getIntent().getStringExtra("name"));
-                intent1.putExtra("email", getIntent().getStringExtra("email"));
-                intent1.putExtra("age", getIntent().getStringExtra("age"));
-                startActivity(intent1);
-            }
-        });
-
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(More.this, ContactUs.class);
-                intent1.putExtra("name", getIntent().getStringExtra("name"));
-                intent1.putExtra("email", getIntent().getStringExtra("email"));
-                intent1.putExtra("age", getIntent().getStringExtra("age"));
-                startActivity(intent1);
-            }
-        });
-
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(More.this, checkList.class);
-                intent1.putExtra("name", getIntent().getStringExtra("name"));
-                intent1.putExtra("email", getIntent().getStringExtra("email"));
-                intent1.putExtra("age", getIntent().getStringExtra("age"));
-                startActivity(intent1);
-            }
-        });
+        list = findViewById(R.id.list);
+        button = findViewById(R.id.button);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -64,15 +45,32 @@ public class More extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(3);
         menuItem.setChecked(true);
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                additem(view);
+            }
+        });
+
+        items = new ArrayList<>();
+        itemsadapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        list.setAdapter(itemsadapter);
+        list.setOnItemLongClickListener((new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return remove(position);
+            }
+        }));
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
-                onBackPressed();
+
                 if (itemId == R.id.ic_arrow) {
                     onBackPressed();
                 } else if (itemId == R.id.ic_team) {
-                    Intent intent1 = new Intent(More.this, team.class);
+                    Intent intent1 = new Intent(checkList.this, team.class);
                     intent1.putExtra("name", getIntent().getStringExtra("name"));
                     intent1.putExtra("email", getIntent().getStringExtra("email"));
                     intent1.putExtra("age", getIntent().getStringExtra("age"));
@@ -80,7 +78,7 @@ public class More extends AppCompatActivity {
                     startActivity(intent1);
                     finish();
                 } else if (itemId == R.id.ic_home) {
-                    Intent intent2 = new Intent(More.this, HomePage.class);
+                    Intent intent2 = new Intent(checkList.this, HomePage.class);
                     intent2.putExtra("name", getIntent().getStringExtra("name"));
                     intent2.putExtra("email", getIntent().getStringExtra("email"));
                     intent2.putExtra("age", getIntent().getStringExtra("age"));
@@ -88,7 +86,7 @@ public class More extends AppCompatActivity {
                     startActivity(intent2);
                     finish();
                 } else if (itemId == R.id.ic_more) {
-                    Intent intent3 = new Intent(More.this, More.class);
+                    Intent intent3 = new Intent(checkList.this, More.class);
                     intent3.putExtra("name", getIntent().getStringExtra("name"));
                     intent3.putExtra("email", getIntent().getStringExtra("email"));
                     intent3.putExtra("age", getIntent().getStringExtra("age"));
@@ -96,7 +94,7 @@ public class More extends AppCompatActivity {
                     startActivity(intent3);
                     finish();
                 } else if (itemId == R.id.ic_profile) {
-                    Intent intent4 = new Intent(More.this, ProfilePage.class);
+                    Intent intent4 = new Intent(checkList.this, ProfilePage.class);
                     intent4.putExtra("name", getIntent().getStringExtra("name"));
                     intent4.putExtra("email", getIntent().getStringExtra("email"));
                     intent4.putExtra("age", getIntent().getStringExtra("age"));
@@ -107,14 +105,18 @@ public class More extends AppCompatActivity {
                 return false;
             }
         });
+
+        // Load tasks from SharedPreferences
+        loadItems();
     }
+
     @Override
     public void onBackPressed() {
         String previousActivity = MyApp.getPreviousActivity();
         if (previousActivity != null) {
             try {
                 Class<?> previousActivityClass = Class.forName(previousActivity);
-                Intent intent = new Intent(More.this, previousActivityClass);
+                Intent intent = new Intent(checkList.this, previousActivityClass);
                 intent.putExtra("name", getIntent().getStringExtra("name"));
                 intent.putExtra("email", getIntent().getStringExtra("email"));
                 intent.putExtra("age", getIntent().getStringExtra("age"));
@@ -131,7 +133,7 @@ public class More extends AppCompatActivity {
     private void navigateToActivity(Class<?> activityClass) {
         String previousActivity = getClass().getName();
         MyApp.setPreviousActivity(previousActivity);
-        Intent intent = new Intent(More.this, activityClass);
+        Intent intent = new Intent(checkList.this, activityClass);
         intent.putExtra("name", getIntent().getStringExtra("name"));
         intent.putExtra("email", getIntent().getStringExtra("email"));
         intent.putExtra("age", getIntent().getStringExtra("age"));
@@ -139,4 +141,43 @@ public class More extends AppCompatActivity {
         finish();
     }
 
+    private boolean remove(int position) {
+        Context context = getApplicationContext();
+        Toast.makeText(context, "Item Removed", Toast.LENGTH_LONG).show();
+        items.remove(position);
+        itemsadapter.notifyDataSetChanged();
+
+        // Save items to SharedPreferences
+        saveItems();
+
+        return true;
+    }
+
+    public void additem(View view) {
+        EditText input = findViewById(R.id.edit_text);
+        String itemText = input.getText().toString();
+
+        if (!itemText.equals("")) {
+            itemsadapter.add(itemText);
+
+            // Save items to SharedPreferences
+            saveItems();
+        } else {
+            Toast.makeText(getApplicationContext(), "Please enter text..", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void saveItems() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet("tasks", new HashSet<>(items));
+        editor.apply();
+    }
+
+    private void loadItems() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        Set<String> taskSet = sharedPreferences.getStringSet("tasks", new HashSet<>());
+        items.addAll(taskSet);
+        itemsadapter.notifyDataSetChanged();
+    }
 }
