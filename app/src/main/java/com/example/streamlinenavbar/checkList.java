@@ -182,7 +182,7 @@ public class checkList extends AppCompatActivity {
 
     private boolean remove(int position) {
         Context context = getApplicationContext();
-        Toast.makeText(context, "Item Removed", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Task Removed", Toast.LENGTH_SHORT).show();
         items.remove(position);
         itemsadapter.notifyDataSetChanged();
 
