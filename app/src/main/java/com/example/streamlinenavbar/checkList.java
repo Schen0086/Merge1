@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,6 +64,28 @@ public class checkList extends AppCompatActivity {
         loadItems();
 
         EditText editText = findViewById(R.id.edit_text);
+        int maxLength = 25; // Set your desired character limit
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No implementation needed
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No implementation needed
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > maxLength) {
+                    s.delete(maxLength, s.length());
+                    Toast.makeText(getApplicationContext(), "Maximum character limit exceeded", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -172,8 +196,10 @@ public class checkList extends AppCompatActivity {
         EditText input = findViewById(R.id.edit_text);
         String itemText = input.getText().toString();
 
-        if (!itemText.equals("")) {
-            itemsadapter.add(itemText);
+        if (!itemText.isEmpty()) {
+
+            String newItem = itemText + " - Hold to delete";
+            itemsadapter.add(newItem);
 
             // Save items to SharedPreferences
             saveItems();

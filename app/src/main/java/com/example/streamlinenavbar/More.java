@@ -23,7 +23,7 @@ public class More extends AppCompatActivity {
 
         Button btn =  findViewById(R.id.getStarted);
         Button btn2 = findViewById(R.id.Contact);
-        Button btn3 = findViewById(R.id.Timetable);
+        Button btn3 = findViewById(R.id.Task);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

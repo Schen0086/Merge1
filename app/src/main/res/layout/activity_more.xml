@@ -38,11 +38,11 @@
             android:text="Practice/Resources" />
 
         <Button
-            android:id="@+id/Timetable"
+            android:id="@+id/Task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="timetable"
-            android:text="Timetable" />
+            android:onClick="task"
+            android:text="Tasks" />
 
         <Button
             android:id="@+id/Contact"
