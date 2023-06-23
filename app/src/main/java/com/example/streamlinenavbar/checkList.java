@@ -5,14 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,13 +48,6 @@ public class checkList extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(3);
         menuItem.setChecked(true);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                additem(view);
-            }
-        });
-
         items = new ArrayList<>();
         itemsadapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         list.setAdapter(itemsadapter);
@@ -61,6 +57,28 @@ public class checkList extends AppCompatActivity {
                 return remove(position);
             }
         }));
+
+        // Load tasks from SharedPreferences
+        loadItems();
+
+        EditText editText = findViewById(R.id.edit_text);
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    additem(v);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                additem(view);
+            }
+        });
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -105,9 +123,6 @@ public class checkList extends AppCompatActivity {
                 return false;
             }
         });
-
-        // Load tasks from SharedPreferences
-        loadItems();
     }
 
     @Override
@@ -162,8 +177,11 @@ public class checkList extends AppCompatActivity {
 
             // Save items to SharedPreferences
             saveItems();
+
+            // Clear the input text
+            input.setText("");
         } else {
-            Toast.makeText(getApplicationContext(), "Please enter text..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please enter a task", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -181,3 +199,4 @@ public class checkList extends AppCompatActivity {
         itemsadapter.notifyDataSetChanged();
     }
 }
+
