@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,22 @@ public class team extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.team);
+
+
+        Button btn =  findViewById(R.id.Create);
+//        Button btn2 = findViewById(R.id.Contact);
+//        Button btn3 = findViewById(R.id.Task);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(team.this, CreateTeamsActivity.class);
+                intent1.putExtra("name", getIntent().getStringExtra("name"));
+                intent1.putExtra("email", getIntent().getStringExtra("email"));
+                intent1.putExtra("age", getIntent().getStringExtra("age"));
+                startActivity(intent1);
+            }
+        });
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);

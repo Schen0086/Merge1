@@ -16,6 +16,12 @@
         android:theme="@style/Theme.StreamLineNavbar"
         tools:targetApi="31">
         <activity
+            android:name=".TeamsTemplate"
+            android:exported="false" />
+        <activity
+            android:name=".CreateTeamsActivity"
+            android:exported="false" />
+        <activity
             android:name=".viewFeedback"
             android:exported="false" />
         <activity

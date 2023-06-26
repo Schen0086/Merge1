@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".CreateTeamsActivity">
+
+    <EditText
+        android:id="@+id/edit_team_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Team Name"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/btn_generate_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_team_name"
+        android:layout_marginTop="17dp"
+        android:text="Generate Code" />
+
+    <TextView
+        android:id="@+id/text_generated_code_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_generate_code"
+        android:layout_marginTop="16dp"
+        android:text="Generated Code:"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/text_generated_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_generated_code_label"
+        android:layout_marginTop="8dp"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_create_team"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_generated_code"
+        android:layout_marginTop="32dp"
+        android:text="Create Team" />
+
+    <!-- Add RecyclerView or other UI elements to display team members -->
+
+</RelativeLayout>
