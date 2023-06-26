@@ -1,5 +1,6 @@
 package com.example.streamlinenavbar;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,13 +29,14 @@ public class sendFeedback extends AppCompatActivity {
     private static final int MAX_TITLE_CHARACTERS = 20;
     private static final int MAX_SUMMARY_CHARACTERS = 100;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_feedback);
 
         editTextTitle = findViewById(R.id.editTextTextMultiLine);
-        editTextSummary = findViewById(R.id.edit_text);
+        editTextSummary = findViewById(R.id.edit_text_feedback);
         buttonSubmit = findViewById(R.id.button2);
 
         feedbackRef = FirebaseFirestore.getInstance().collection("feedbacks");

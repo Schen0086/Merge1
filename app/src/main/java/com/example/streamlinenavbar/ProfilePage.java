@@ -16,20 +16,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfilePage extends AppCompatActivity {
 
-    private static final String FILE_NAME = "example.txt";
     EditText mEditText;
     Button btnLogout;
     TextView userTextView, emailTextView, ageTextView;
+
+    private FirebaseFirestore db;
+    private FirebaseAuth firebaseAuth;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -37,7 +38,13 @@ public class ProfilePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
 
-        mEditText = findViewById(R.id.edit_text);
+        // Initialize Firebase Firestore
+        db = FirebaseFirestore.getInstance();
+
+        // Initialize Firebase Auth
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        mEditText = findViewById(R.id.edit_about_me);
 
         btnLogout = findViewById(R.id.logout);
         userTextView = findViewById(R.id.loggedInName);
@@ -48,12 +55,11 @@ public class ProfilePage extends AppCompatActivity {
         emailTextView.setText("Email: " + getIntent().getStringExtra("email"));
         ageTextView.setText("Age: " + getIntent().getStringExtra("age"));
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
-        BottomNavigationViewHelper. disableShiftMode(bottomNavigationView);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(4);
         menuItem.setChecked(true);
-
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
@@ -95,7 +101,6 @@ public class ProfilePage extends AppCompatActivity {
                     navigateToActivity(ProfilePage.class);
                     startActivity(intent4);
                     finish();
-
                 }
 
                 return false;
@@ -108,62 +113,107 @@ public class ProfilePage extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });
+
+        // Call the method to create the "users" collection if it doesn't exist
+        createUsersCollectionIfNotExist();
+    }
+
+    private void createUsersCollectionIfNotExist() {
+        db.collection("users").document("dummy").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (!task.getResult().exists()) {
+                            // "users" collection doesn't exist, create it
+                            Map<String, Object> dummyData = new HashMap<>();
+                            dummyData.put("dummyField", "dummyValue");
+                            db.collection("users").document("dummy").set(dummyData)
+                                    .addOnSuccessListener(aVoid -> {
+                                        // Collection created successfully
+                                        db.collection("users").document("dummy").delete()
+                                                .addOnSuccessListener(aVoid1 -> {
+                                                    // Dummy document deleted successfully
+                                                    Toast.makeText(ProfilePage.this, "Users collection created successfully", Toast.LENGTH_SHORT).show();
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    // Failed to delete dummy document
+                                                    Toast.makeText(ProfilePage.this, "Failed to delete dummy document", Toast.LENGTH_SHORT).show();
+                                                });
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        // Failed to create the collection
+                                        Toast.makeText(ProfilePage.this, "Failed to create 'users' collection", Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+                    } else {
+                        // Failed to retrieve document, show error message
+                        Toast.makeText(ProfilePage.this, "Failed to retrieve 'users' collection", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 
+    public void save(View view) {
+        String aboutMe = mEditText.getText().toString();
 
+        // Get the current user
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
-    public void save(View view){
-        String text = mEditText.getText().toString();
-        FileOutputStream fos = null;
+        // Check if the user is authenticated
+        if (currentUser != null) {
+            // Get the user's unique ID
+            String userId = currentUser.getUid();
 
-        try {
-            fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
-            fos.write(text.getBytes());
+            // Create a reference to the document for the current user in the "users" collection
+            DocumentReference userRef = db.collection("users").document(userId);
 
-            mEditText.getText().clear();
-            Toast.makeText(this,"Saved to" + getFilesDir() + "/" + FILE_NAME,Toast.LENGTH_LONG).show();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            if(fos != null){
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            // Create a map to store the "aboutMe" field value
+            Map<String, Object> data = new HashMap<>();
+            data.put("aboutMe", aboutMe);
+
+            // Set the data for the current user
+            userRef.set(data)
+                    .addOnSuccessListener(aVoid -> {
+                        // Clear the EditText after saving
+                        mEditText.getText().clear();
+                        Toast.makeText(ProfilePage.this, "About Me saved successfully", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(ProfilePage.this, "Failed to save About Me", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(ProfilePage.this, "User not authenticated", Toast.LENGTH_SHORT).show();
         }
     }
-    public void load(View view){
-        FileInputStream fis = null;
 
-        try {
-            fis = openFileInput(FILE_NAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String text;
 
-            while ((text = br.readLine()) != null){
-                sb.append(text).append("\n");
+    public void load(View view) {
+        // Get the current user
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
-                mEditText.setText(sb.toString());
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+        // Check if the user is authenticated
+        if (currentUser != null) {
+            // Get the user's unique ID
+            String userId = currentUser.getUid();
+
+            // Create a reference to the document for the current user in the "users" collection
+            DocumentReference userRef = db.collection("users").document(userId);
+
+            // Retrieve the "aboutMe" field for the current user
+            userRef.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Get the "aboutMe" field value
+                            String aboutMe = documentSnapshot.getString("aboutMe");
+
+                            // Set the "aboutMe" value in the EditText
+                            mEditText.setText(aboutMe);
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(ProfilePage.this, "Failed to load About Me", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(ProfilePage.this, "User not authenticated", Toast.LENGTH_SHORT).show();
         }
     }
 
