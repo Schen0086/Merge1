@@ -21,6 +21,7 @@
             android:id="@+id/Join"
             android:layout_width="242dp"
             android:layout_height="69dp"
+            android:onClick="joinTeam"
             android:text="Join your team"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"

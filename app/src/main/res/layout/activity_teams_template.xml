@@ -7,43 +7,129 @@
 
     <TextView
         android:id="@+id/text_team_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Team Name"
-        android:textSize="20sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
-
-    <TextView
-        android:id="@+id/text_team_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Team Code"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/text_team_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
-
-    <ListView
-        android:id="@+id/list_users"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"
+        android:layout_height="100dp"
+        android:background="@drawable/white_grey_border_top"
+        android:text="Team Name"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_team_code" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_team_name">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/white_grey_border_left">
+
+            <TextView
+                android:id="@+id/text_team_code_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:text="Team Code:"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_team_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_below="@id/text_team_code_text"
+                android:text=""
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_team_code"
+                android:layout_above="@+id/leaveTeambtn"
+                android:orientation="vertical"
+                android:background="@drawable/white_grey_border_top_and_bottom">
+
+                <Button
+                    android:id="@+id/sendFeedBackbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="180dp"
+                    android:onClick="sendFeedback"
+                    android:text="Send Feedback" />
+
+                <Button
+                    android:id="@+id/viewFeedBackbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:onClick="viewFeedback"
+                    android:text="View Feedback" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/leaveTeambtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="16dp"
+                android:text="Leave Team" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:orientation="vertical">
+
+            <!-- Add your views here -->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@drawable/white_grey_border_left"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/text_team_members"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/white_grey_border_top"
+                android:text="Team Members:"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+            <ListView
+                android:id="@+id/list_users"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:divider="@android:color/darker_gray"
+                android:dividerHeight="1dp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

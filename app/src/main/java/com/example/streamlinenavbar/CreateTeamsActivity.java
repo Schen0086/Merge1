@@ -78,8 +78,6 @@ public class CreateTeamsActivity extends AppCompatActivity {
         teamCodeTextView.setText(String.valueOf(teamCode));
     }
 
-
-
     private void createTeam() {
         String teamName = teamNameEditText.getText().toString().trim().toUpperCase(); // Convert team name to uppercase
         String teamCode = teamCodeTextView.getText().toString();
@@ -89,64 +87,76 @@ public class CreateTeamsActivity extends AppCompatActivity {
             return;
         }
 
-        // Check if the team name already exists in Firestore
-        teamsCollection.whereEqualTo("name", teamName).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (!task.getResult().isEmpty()) {
-                            // Team name already exists
-                            Toast.makeText(CreateTeamsActivity.this, "This team name already exists", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Team name is unique, check if the team code already exists
-                            teamsCollection.document(teamCode).get()
-                                    .addOnCompleteListener(codeTask -> {
-                                        if (codeTask.isSuccessful()) {
-                                            if (codeTask.getResult().exists()) {
-                                                // Team code already exists, generate a new one
-                                                generateTeamCode();
-                                            } else {
-                                                // Team code is unique, create the team
-                                                Map<String, Object> teamData = new HashMap<>();
-                                                teamData.put("name", teamName);
+        // Check if the user is already in a team
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
 
-                                                // Add current user's ID to the team document
-                                                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                                                if (currentUser != null) {
-                                                    String userId = currentUser.getUid();
-                                                    Map<String, Object> userData = new HashMap<>();
-                                                    userData.put("userId", userId);
-                                                    teamData.put("users", Collections.singletonList(userData));
+            // Query Firestore to check if the user is already in a team
+            teamsCollection.whereArrayContains("users", userId).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().isEmpty()) {
+                                // User is already in a team
+                                Toast.makeText(CreateTeamsActivity.this, "You are already in a team", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // User is not in a team, continue with creating the team
 
-                                                    teamsCollection.document(teamCode).set(teamData)
-                                                            .addOnSuccessListener(aVoid -> {
-                                                                Toast.makeText(CreateTeamsActivity.this, "Team created successfully", Toast.LENGTH_SHORT).show();
-                                                                clearForm();
-
-                                                                // Navigate to TeamsTemplate activity
-                                                                Intent intent = new Intent(CreateTeamsActivity.this, TeamsTemplate.class);
-                                                                intent.putExtra("teamName", teamName); // Pass the team name
-                                                                intent.putExtra("teamCode", teamCode); // Pass the team code
-                                                                startActivity(intent);
-                                                            })
-                                                            .addOnFailureListener(e -> {
-                                                                Toast.makeText(CreateTeamsActivity.this, "Failed to create team", Toast.LENGTH_SHORT).show();
-                                                            });
+                                // Check if the team name already exists in Firestore
+                                teamsCollection.whereEqualTo("name", teamName).get()
+                                        .addOnCompleteListener(nameTask -> {
+                                            if (nameTask.isSuccessful()) {
+                                                if (!nameTask.getResult().isEmpty()) {
+                                                    // Team name already exists
+                                                    Toast.makeText(CreateTeamsActivity.this, "This team name already exists", Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    Toast.makeText(CreateTeamsActivity.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+                                                    // Team name is unique, check if the team code already exists
+                                                    teamsCollection.document(teamCode).get()
+                                                            .addOnCompleteListener(codeTask -> {
+                                                                if (codeTask.isSuccessful()) {
+                                                                    if (codeTask.getResult().exists()) {
+                                                                        // Team code already exists, generate a new one
+                                                                        generateTeamCode();
+                                                                    } else {
+                                                                        // Team code is unique, create the team
+                                                                        Map<String, Object> teamData = new HashMap<>();
+                                                                        teamData.put("name", teamName);
+
+                                                                        teamData.put("users", Collections.singletonList(userId));
+
+                                                                        teamsCollection.document(teamCode).set(teamData)
+                                                                                .addOnSuccessListener(aVoid -> {
+                                                                                    Toast.makeText(CreateTeamsActivity.this, "Team created successfully", Toast.LENGTH_SHORT).show();
+                                                                                    clearForm();
+
+                                                                                    // Navigate to TeamsTemplate activity
+                                                                                    Intent intent = new Intent(CreateTeamsActivity.this, TeamsTemplate.class);
+                                                                                    intent.putExtra("teamName", teamName); // Pass the team name
+                                                                                    intent.putExtra("teamCode", teamCode); // Pass the team code
+                                                                                    startActivity(intent);
+                                                                                })
+                                                                                .addOnFailureListener(e -> {
+                                                                                    Toast.makeText(CreateTeamsActivity.this, "Failed to create team", Toast.LENGTH_SHORT).show();
+                                                                                });
+                                                                    }
+                                                                } else {
+                                                                    Toast.makeText(CreateTeamsActivity.this, "Failed to check team code", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
                                                 }
+                                            } else {
+                                                Toast.makeText(CreateTeamsActivity.this, "Failed to check team name", Toast.LENGTH_SHORT).show();
                                             }
-                                        } else {
-                                            Toast.makeText(CreateTeamsActivity.this, "Failed to check team code", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                        });
+                            }
+                        } else {
+                            Toast.makeText(CreateTeamsActivity.this, "Failed to check user's teams", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(CreateTeamsActivity.this, "Failed to check team name", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    });
+        } else {
+            Toast.makeText(CreateTeamsActivity.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+        }
     }
-
-
 
 
     private void clearForm() {

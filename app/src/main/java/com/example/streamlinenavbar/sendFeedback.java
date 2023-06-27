@@ -135,7 +135,7 @@ public class sendFeedback extends AppCompatActivity {
 
 
     private void navigateToHomePage() {
-        Intent intent = new Intent(sendFeedback.this, HomePage.class);
+        Intent intent = new Intent(sendFeedback.this, TeamsTemplate.class);
         startActivity(intent);
         finish();
     }
