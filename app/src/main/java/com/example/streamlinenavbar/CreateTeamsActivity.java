@@ -59,6 +59,16 @@ public class CreateTeamsActivity extends AppCompatActivity {
                 createTeam();
             }
         });
+
+        // Set click listener for Cancel button
+        Button cancelButton = findViewById(R.id.btn_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); // Close the activity and return to the previous screen
+            }
+        });
+
     }
 
     private void generateTeamCode() {
