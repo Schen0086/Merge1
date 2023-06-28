@@ -63,26 +63,37 @@ public class TeamsTemplate extends AppCompatActivity {
         teamCodeTextView = findViewById(R.id.text_team_code);
         usersListView = findViewById(R.id.list_users);
 
-        String teamName = getIntent().getStringExtra("teamName");
-        String teamCode = getIntent().getStringExtra("teamCode");
+        String currentUserId = getCurrentUserId();
 
-        teamNameTextView.setText(teamName);
-        teamCodeTextView.setText(teamCode);
-
-        teamsCollection.document(teamCode).get()
+        teamsCollection.whereArrayContains("users", currentUserId)
+                .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        DocumentSnapshot teamDocument = task.getResult();
-                        if (teamDocument.exists()) {
-                            List<String> users = new ArrayList<>();
+                        List<String> users = new ArrayList<>();
+
+                        for (DocumentSnapshot teamDocument : task.getResult()) {
+                            String teamCode = teamDocument.getId();
+                            String teamName = teamDocument.getString("name");
+
                             List<String> userIds = (List<String>) teamDocument.get("users");
                             if (userIds != null) {
                                 users.addAll(userIds);
                             }
                             displayUsers(users);
+
+                            // Set the team name and code in the TextViews
+                            teamNameTextView.setText(teamName);
+                            teamCodeTextView.setText(teamCode);
+
+                            // Assuming there is only one team associated with the user, you can break the loop
+                            break;
                         }
+                    } else {
+                        Toast.makeText(this, "Failed to fetch team data", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
 
         leaveTeamButton = findViewById(R.id.leaveTeambtn);
         leaveTeamButton.setOnClickListener(new View.OnClickListener() {
@@ -233,7 +244,8 @@ public class TeamsTemplate extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(TeamsTemplate.this, "You left the team", Toast.LENGTH_SHORT).show();
-                        finish();
+                        Intent intent = new Intent(TeamsTemplate.this, HomePage.class);
+                        startActivity(intent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -24,6 +24,7 @@ public class sendFeedback extends AppCompatActivity {
     private EditText editTextTitle;
     private EditText editTextSummary;
     private Button buttonSubmit;
+    private Button buttonCancel;
     private CollectionReference feedbackRef;
 
     private static final int MAX_TITLE_CHARACTERS = 20;
@@ -37,7 +38,8 @@ public class sendFeedback extends AppCompatActivity {
 
         editTextTitle = findViewById(R.id.editTextTextMultiLine);
         editTextSummary = findViewById(R.id.edit_text_feedback);
-        buttonSubmit = findViewById(R.id.button2);
+        buttonSubmit = findViewById(R.id.button3);
+        buttonCancel = findViewById(R.id.button2);
 
         feedbackRef = FirebaseFirestore.getInstance().collection("feedbacks");
 
@@ -47,6 +49,13 @@ public class sendFeedback extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 submitFeedback();
+            }
+        });
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToTeamPage();
             }
         });
     }
@@ -115,7 +124,7 @@ public class sendFeedback extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(sendFeedback.this, "Feedback submitted", Toast.LENGTH_SHORT).show();
-                            navigateToHomePage();
+                            navigateToTeamPage();
                         } else {
                             Toast.makeText(sendFeedback.this, "Failed to submit feedback", Toast.LENGTH_SHORT).show();
                         }
@@ -133,10 +142,10 @@ public class sendFeedback extends AppCompatActivity {
         }
     }
 
-
-    private void navigateToHomePage() {
+    private void navigateToTeamPage() {
         Intent intent = new Intent(sendFeedback.this, TeamsTemplate.class);
         startActivity(intent);
         finish();
     }
 }
+
