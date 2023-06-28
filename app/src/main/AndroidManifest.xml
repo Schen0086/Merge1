@@ -16,6 +16,9 @@
         android:theme="@style/Theme.StreamLineNavbar"
         tools:targetApi="31">
         <activity
+            android:name=".SprintsTemplate"
+            android:exported="false" />
+        <activity
             android:name=".JoinTeamsActivity"
             android:exported="false" />
         <activity

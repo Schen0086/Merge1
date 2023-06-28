@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SprintsTemplate">
+
+    <TextView
+        android:id="@+id/sprint_name"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="Sprint Name"
+        android:textSize="30sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/white_grey_border_top"/>
+
+    <TextView
+        android:id="@+id/unassigned_tasks_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Unassigned"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:background="@drawable/white_grey_border_left"
+        app:layout_constraintTop_toBottomOf="@id/sprint_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/assigned_tasks_title" />
+
+    <TextView
+        android:id="@+id/assigned_tasks_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Assigned"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:background="@drawable/white_grey_border_left"
+        app:layout_constraintTop_toBottomOf="@id/sprint_name"
+        app:layout_constraintStart_toEndOf="@id/unassigned_tasks_title"
+        app:layout_constraintEnd_toStartOf="@id/completed_tasks_title" />
+
+    <TextView
+        android:id="@+id/completed_tasks_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Completed"
+        android:textSize="20sp"
+        android:background="@drawable/white_grey_border_left"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/sprint_name"
+        app:layout_constraintStart_toEndOf="@id/assigned_tasks_title"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/unassigned_tasks_list"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="127dp"
+        app:layout_constraintTop_toBottomOf="@id/unassigned_tasks_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/assigned_tasks_list"
+        android:background="@drawable/white_grey_border_top_and_bottom_and_right" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/assigned_tasks_list"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="127dp"
+        app:layout_constraintTop_toBottomOf="@id/assigned_tasks_title"
+        app:layout_constraintStart_toEndOf="@id/unassigned_tasks_list"
+        app:layout_constraintEnd_toStartOf="@id/completed_tasks_list"
+        android:background="@drawable/white_grey_border_top_and_bottom_and_right"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/completed_tasks_list"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="127dp"
+        app:layout_constraintTop_toBottomOf="@id/completed_tasks_title"
+        app:layout_constraintStart_toEndOf="@id/assigned_tasks_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/white_grey_border_top_and_bottom_and_right"
+        />
+
+    <RelativeLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavView_Bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_grey_border_bottom"
+            app:menu="@menu/bottom_navigation_menu">
+
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

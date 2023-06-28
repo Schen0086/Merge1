@@ -97,6 +97,15 @@
 
             <!-- Add your views here -->
 
+
+            <Button
+                android:id="@+id/sprint_page"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Sprint Page"
+                android:textSize="30dp"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"/>
         </LinearLayout>
 
         <LinearLayout

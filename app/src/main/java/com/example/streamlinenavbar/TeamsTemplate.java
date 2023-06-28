@@ -44,7 +44,9 @@ public class TeamsTemplate extends AppCompatActivity {
 
     private Button leaveTeamButton;
 
-    @SuppressLint("MissingInflatedId")
+    private Button sprintPageButton;
+
+    @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,6 +173,15 @@ public class TeamsTemplate extends AppCompatActivity {
                 return false;
             }
         });
+
+        sprintPageButton = findViewById(R.id.sprint_page); // Initialize the sprintPageButton
+        sprintPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addSprintToTeam();
+            }
+        });
+
     }
 
     @Override
@@ -267,4 +278,41 @@ public class TeamsTemplate extends AppCompatActivity {
             return null;
         }
     }
+    private void addSprintToTeam() {
+        String currentUserId = getCurrentUserId();
+
+        teamsCollection.whereArrayContains("users", currentUserId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot teamDocument : task.getResult()) {
+                            String teamId = teamDocument.getId();
+                            String teamName = teamDocument.getString("name");
+                            String sprintName = teamName + "'s Sprint Page";
+
+                            teamsCollection.document(teamId)
+                                    .update("sprintName", sprintName)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+
+                                            // Start the SprintsTemplate activity and pass the sprint name
+                                            Intent intent = new Intent(TeamsTemplate.this, SprintsTemplate.class);
+                                            intent.putExtra("sprintName", sprintName);
+                                            startActivity(intent);
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(TeamsTemplate.this, "Failed to add sprint to the team", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    } else {
+                        Toast.makeText(TeamsTemplate.this, "Failed to fetch team data", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 }
