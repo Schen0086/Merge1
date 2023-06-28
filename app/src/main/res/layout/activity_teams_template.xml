@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/white_grey_border_left">
+            android:background="@drawable/white_grey_border_right">
 
             <TextView
                 android:id="@+id/text_team_code_text"
@@ -60,7 +60,7 @@
                 android:layout_below="@id/text_team_code"
                 android:layout_above="@+id/leaveTeambtn"
                 android:orientation="vertical"
-                android:background="@drawable/white_grey_border_top_and_bottom">
+                android:background="@drawable/white_grey_border_top_and_bottom_and_right">
 
                 <Button
                     android:id="@+id/sendFeedBackbtn"
@@ -125,6 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
+                android:background="@drawable/white_grey_border_left_and_bottom"
                 android:divider="@android:color/darker_gray"
                 android:dividerHeight="1dp" />
         </LinearLayout>
