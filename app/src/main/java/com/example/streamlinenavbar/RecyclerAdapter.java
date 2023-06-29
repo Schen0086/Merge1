@@ -1,5 +1,6 @@
 package com.example.streamlinenavbar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return new MyViewHolder(v);
     }
 
+    // Update the onBindViewHolder() method in RecyclerAdapter class
+    @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, int position) {
         TaskAdapter taskAdapter = taskAdapterArrayList.get(position);
@@ -46,17 +49,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         // Retrieve the user ID
         String userId = getCurrentUserId();
 
+        // Retrieve the task ID from the adapter
+        String taskId = taskAdapter.getTaskId();
+
         // Set up delete button click listener
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Retrieve the task ID from the adapter
-                String taskId = taskAdapter.getTaskId();
-
                 // Ensure userId is not null
                 if (userId != null) {
                     // Delete the task from Firestore
-                    deleteTaskFromFirestore(taskId, userId);
+                    deleteTaskFromFirestore(taskId, userId, position);
                 } else {
                     // Handle the case when userId is null
                     Toast.makeText(context, "User ID is null", Toast.LENGTH_SHORT).show();
@@ -65,13 +68,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         });
     }
 
-
     @Override
     public int getItemCount() {
         return taskAdapterArrayList.size();
     }
 
-    private void deleteTaskFromFirestore(String taskId, String userId) {
+    // Update the deleteTaskFromFirestore() method in RecyclerAdapter class
+    private void deleteTaskFromFirestore(String taskId, String userId, int position) {
         db.collection("teams")
                 .whereArrayContains("users", userId)
                 .get()
@@ -80,17 +83,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                         DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
                         String teamId = documentSnapshot.getId();
 
-                        // Delete the task from Firestore
+                        // Delete the task ID from the sprintTasks array field
                         db.collection("teams")
                                 .document(teamId)
                                 .update("sprintTasks", FieldValue.arrayRemove(taskId))
                                 .addOnSuccessListener(aVoid -> {
-                                    // Task deleted successfully
+                                    // Task ID removed from the sprintTasks array successfully
+                                    taskAdapterArrayList.remove(position); // Remove the task from the ArrayList
+                                    notifyItemRemoved(position); // Notify the adapter about the removed item
                                     Toast.makeText(context, "Task deleted", Toast.LENGTH_SHORT).show();
                                 })
                                 .addOnFailureListener(e -> {
-                                    // Error occurred while deleting the task
-                                    Toast.makeText(context, "Failed to delete task", Toast.LENGTH_SHORT).show();
+                                    // Error occurred while removing the task ID from the sprintTasks array
+                                    Toast.makeText(context, "Failed to remove task ID from sprintTasks", Toast.LENGTH_SHORT).show();
                                 });
                     } else {
                         // Handle the case when the user's team document is not found
@@ -102,8 +107,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                     Toast.makeText(context, "Failed to query teams", Toast.LENGTH_SHORT).show();
                 });
     }
-
-
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView sprintTasks;
@@ -119,10 +122,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     private String getCurrentUserId() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            String userId = currentUser.getUid();
-            return userId;
+            return currentUser.getUid();
         } else {
-            // Handle the case when there is no authenticated user
             return null;
         }
     }

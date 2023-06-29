@@ -148,7 +148,8 @@ public class SprintsTemplate extends AppCompatActivity {
                             List<String> sprintTasksList = (List<String>) document.get("sprintTasks");
                             if (sprintTasksList != null) {
                                 for (String sprintTask : sprintTasksList) {
-                                    TaskAdapter taskAdapter = new TaskAdapter(sprintTask);
+                                    String taskId = document.getId(); // Get the document ID as the taskId
+                                    TaskAdapter taskAdapter = new TaskAdapter(sprintTask, taskId);
                                     taskAdapterArrayList.add(taskAdapter);
                                 }
                             }
@@ -158,6 +159,7 @@ public class SprintsTemplate extends AppCompatActivity {
                     }
                 });
     }
+
 
 
     @Override

@@ -2,15 +2,16 @@ package com.example.streamlinenavbar;
 
 public class TaskAdapter {
     private String taskId;
-    private String sprintTasks;
+    private String sprintTasks; // Change the field name to sprintTasks
     private String teamCode;
 
     public TaskAdapter() {
+        // Default constructor required for Firestore
     }
-    public TaskAdapter(String taskId) {
-        this.taskId = taskId;
+
+    public TaskAdapter(String sprintTasks, String taskId) {
         this.sprintTasks = sprintTasks;
-        this.teamCode = teamCode;
+        this.taskId = taskId;
     }
 
     public String getTaskId() {
@@ -37,5 +38,3 @@ public class TaskAdapter {
         this.teamCode = teamCode;
     }
 }
-
-
