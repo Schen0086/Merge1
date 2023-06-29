@@ -19,8 +19,9 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> implements ItemTouchHelperAdapter {
 
     private Context context;
     private ArrayList<TaskAdapter> taskAdapterArrayList;
@@ -39,29 +40,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return new MyViewHolder(v);
     }
 
-    // Update the onBindViewHolder() method in RecyclerAdapter class
     @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, int position) {
         TaskAdapter taskAdapter = taskAdapterArrayList.get(position);
         holder.sprintTasks.setText(taskAdapter.getSprintTasks());
 
-        // Retrieve the user ID
         String userId = getCurrentUserId();
-
-        // Retrieve the task ID from the adapter
         String taskId = taskAdapter.getTaskId();
 
-        // Set up delete button click listener
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Ensure userId is not null
                 if (userId != null) {
-                    // Delete the task from Firestore
                     deleteTaskFromFirestore(taskId, userId, position);
                 } else {
-                    // Handle the case when userId is null
                     Toast.makeText(context, "User ID is null", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -73,7 +66,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return taskAdapterArrayList.size();
     }
 
-    // Update the deleteTaskFromFirestore() method in RecyclerAdapter class
     private void deleteTaskFromFirestore(String taskId, String userId, int position) {
         db.collection("teams")
                 .whereArrayContains("users", userId)
@@ -105,8 +97,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 .addOnFailureListener(e -> {
                     // Error occurred while querying the teams collection
                     Toast.makeText(context, "Failed to query teams", Toast.LENGTH_SHORT).show();
-                });
-    }
+                });    }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView sprintTasks;
@@ -127,4 +118,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             return null;
         }
     }
+
+    @Override
+    public void onItemMoved(int fromPosition, int toPosition) {
+        // Update the list to reflect the item move
+        Collections.swap(taskAdapterArrayList, fromPosition, toPosition);
+
+        // Notify the adapter about the move
+        notifyItemMoved(fromPosition, toPosition);
+    }
 }
+

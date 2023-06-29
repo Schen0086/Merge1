@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,6 +53,9 @@ public class SprintsTemplate extends AppCompatActivity {
         recyclerAdapter = new RecyclerAdapter(SprintsTemplate.this, taskAdapterArrayList);
 
         recyclerView.setAdapter(recyclerAdapter);
+
+        setupRecyclerView(); // Add this line to set up the ItemTouchHelper
+
 
         EventChangeListener();
 
@@ -203,4 +207,14 @@ public class SprintsTemplate extends AppCompatActivity {
             return null;
         }
     }
+
+    private void setupRecyclerView() {
+        // Create an instance of the TaskItemTouchHelperCallback
+        TaskItemTouchHelperCallback callback = new TaskItemTouchHelperCallback(recyclerAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+
+        // Attach the touch helper to the RecyclerView
+        touchHelper.attachToRecyclerView(recyclerView);
+    }
+
 }
