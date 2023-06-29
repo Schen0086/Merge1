@@ -3,6 +3,7 @@ package com.example.streamlinenavbar;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,14 +11,31 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SprintsTemplate extends AppCompatActivity {
 
+    RecyclerView recyclerView;
+    ArrayList<TaskAdapter> taskAdapterArrayList;
+    RecyclerAdapter recyclerAdapter;
+    FirebaseFirestore db;
+
+    private String sprintTasks;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -25,13 +43,27 @@ public class SprintsTemplate extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sprints_template);
 
+        recyclerView = findViewById(R.id.unassigned_tasks_list);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        db = FirebaseFirestore.getInstance();
+        taskAdapterArrayList = new ArrayList<TaskAdapter>();
+        recyclerAdapter = new RecyclerAdapter(SprintsTemplate.this, taskAdapterArrayList);
+
+        recyclerView.setAdapter(recyclerAdapter);
+
+        EventChangeListener();
+
+        sprintTasks = getIntent().getStringExtra("sprintTasks");
+
         TextView sprintTextView = findViewById(R.id.sprint_name);
 
         // Retrieve the sprint name from the intent
         String sprint = getIntent().getStringExtra("sprint");
 
         // Retrieve the userId from the intent
-        getCurrentUserId();
+        String userId = getCurrentUserId();
 
         // Set the sprint name to the TextView
         sprintTextView.setText(sprint);
@@ -90,13 +122,43 @@ public class SprintsTemplate extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SprintsTemplate.this, SprintAddTasks.class);
-                intent.putExtra("users", getCurrentUserId()); // Pass the current user's ID
-                intent.putExtra("sprint", getIntent().getStringExtra("sprint")); // Pass the sprint name
+                intent.putExtra("users", userId); // Pass the current user's ID
+                intent.putExtra("sprint", sprint); // Pass the sprint name
                 startActivity(intent);
             }
         });
 
     }
+
+    private void EventChangeListener() {
+        String userId = getCurrentUserId();
+        db.collection("teams")
+                .whereArrayContains("users", userId) // Filter teams where the current user is a member
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.e("Firestore error", error.getMessage());
+                            return;
+                        }
+
+                        taskAdapterArrayList.clear(); // Clear the list before adding new data
+
+                        for (DocumentSnapshot document : value.getDocuments()) {
+                            List<String> sprintTasksList = (List<String>) document.get("sprintTasks");
+                            if (sprintTasksList != null) {
+                                for (String sprintTask : sprintTasksList) {
+                                    TaskAdapter taskAdapter = new TaskAdapter(sprintTask);
+                                    taskAdapterArrayList.add(taskAdapter);
+                                }
+                            }
+                        }
+
+                        recyclerAdapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
 
     @Override
     public void onBackPressed() {
