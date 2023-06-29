@@ -5,14 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SprintsTemplate extends AppCompatActivity {
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -20,13 +25,16 @@ public class SprintsTemplate extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sprints_template);
 
-        TextView sprintNameTextView = findViewById(R.id.sprint_name);
+        TextView sprintTextView = findViewById(R.id.sprint_name);
 
         // Retrieve the sprint name from the intent
-        String sprintName = getIntent().getStringExtra("sprintName");
+        String sprint = getIntent().getStringExtra("sprint");
+
+        // Retrieve the userId from the intent
+        getCurrentUserId();
 
         // Set the sprint name to the TextView
-        sprintNameTextView.setText(sprintName);
+        sprintTextView.setText(sprint);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
@@ -76,6 +84,18 @@ public class SprintsTemplate extends AppCompatActivity {
                 return false;
             }
         });
+
+        Button addTasksBtn = findViewById(R.id.add_tasks_btn);
+        addTasksBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SprintsTemplate.this, SprintAddTasks.class);
+                intent.putExtra("users", getCurrentUserId()); // Pass the current user's ID
+                intent.putExtra("sprint", getIntent().getStringExtra("sprint")); // Pass the sprint name
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -107,5 +127,16 @@ public class SprintsTemplate extends AppCompatActivity {
         intent.putExtra("age", getIntent().getStringExtra("age"));
         startActivity(intent);
         finish();
+    }
+
+    private String getCurrentUserId() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            return userId;
+        } else {
+            // Handle the case when there is no authenticated user
+            return null;
+        }
     }
 }

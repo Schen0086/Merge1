@@ -288,17 +288,17 @@ public class TeamsTemplate extends AppCompatActivity {
                         for (DocumentSnapshot teamDocument : task.getResult()) {
                             String teamId = teamDocument.getId();
                             String teamName = teamDocument.getString("name");
-                            String sprintName = teamName + "'s Sprint Page";
+                            String sprint = teamName + "'s Sprint";
 
                             teamsCollection.document(teamId)
-                                    .update("sprintName", sprintName)
+                                    .update("sprint", sprint)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
 
                                             // Start the SprintsTemplate activity and pass the sprint name
                                             Intent intent = new Intent(TeamsTemplate.this, SprintsTemplate.class);
-                                            intent.putExtra("sprintName", sprintName);
+                                            intent.putExtra("sprint", sprint);
                                             startActivity(intent);
                                         }
                                     })

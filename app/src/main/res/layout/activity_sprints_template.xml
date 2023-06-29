@@ -101,4 +101,16 @@
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/add_tasks_btn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="84dp"
+        android:text="+"
+        android:textSize="40dp"
+        android:onClick="addTasksBtn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
