@@ -24,6 +24,7 @@ public class SprintAddTasks extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sprint_add_tasks);
+        Button cancelBtn = findViewById(R.id.cancel_btn);
 
         // Retrieve the user ID from the intent
         userId = getIntent().getStringExtra("users");
@@ -81,7 +82,13 @@ public class SprintAddTasks extends AppCompatActivity {
 
             }
         });
-
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to the SprintsTemplate activity without adding the task
+                finish();
+            }
+        });
 
     }
 }
