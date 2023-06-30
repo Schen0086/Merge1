@@ -9,7 +9,7 @@ public class TaskAdapter {
         // Default constructor required for Firestore
     }
 
-    public TaskAdapter(String sprintTasks, String taskId) {
+    public TaskAdapter(String taskId, String sprintTasks) {
         this.sprintTasks = sprintTasks;
         this.taskId = taskId;
     }

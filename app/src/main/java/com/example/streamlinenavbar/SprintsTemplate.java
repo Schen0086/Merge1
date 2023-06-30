@@ -153,7 +153,7 @@ public class SprintsTemplate extends AppCompatActivity {
                             if (sprintTasksList != null) {
                                 for (String sprintTask : sprintTasksList) {
                                     String taskId = document.getId(); // Get the document ID as the taskId
-                                    TaskAdapter taskAdapter = new TaskAdapter(sprintTask, taskId);
+                                    TaskAdapter taskAdapter = new TaskAdapter(taskId, sprintTask);
                                     taskAdapterArrayList.add(taskAdapter);
                                 }
                             }

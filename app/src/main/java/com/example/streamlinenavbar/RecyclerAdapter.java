@@ -52,8 +52,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // Retrieve the task ID from the adapter
+                String taskId = taskAdapter.getTaskId();
+                String sprintTasks = taskAdapter.getSprintTasks();
+
                 if (userId != null) {
-                    deleteTaskFromFirestore(taskId, userId, position);
+                    deleteTaskFromFirestore(sprintTasks, taskId, userId);
                 } else {
                     Toast.makeText(context, "User ID is null", Toast.LENGTH_SHORT).show();
                 }
@@ -66,7 +71,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return taskAdapterArrayList.size();
     }
 
-    private void deleteTaskFromFirestore(String taskId, String userId, int position) {
+    private void deleteTaskFromFirestore(String sprintTasks, String taskId, String userId) {
         db.collection("teams")
                 .whereArrayContains("users", userId)
                 .get()
@@ -78,11 +83,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                         // Delete the task ID from the sprintTasks array field
                         db.collection("teams")
                                 .document(teamId)
-                                .update("sprintTasks", FieldValue.arrayRemove(taskId))
+                                .update("sprintTasks", FieldValue.arrayRemove(sprintTasks, taskId))
                                 .addOnSuccessListener(aVoid -> {
                                     // Task ID removed from the sprintTasks array successfully
-                                    taskAdapterArrayList.remove(position); // Remove the task from the ArrayList
-                                    notifyItemRemoved(position); // Notify the adapter about the removed item
+//                                    taskAdapterArrayList.remove(position); // Remove the task from the ArrayList
+//                                    notifyItemRemoved(position); // Notify the adapter about the removed item
                                     Toast.makeText(context, "Task deleted", Toast.LENGTH_SHORT).show();
                                 })
                                 .addOnFailureListener(e -> {
