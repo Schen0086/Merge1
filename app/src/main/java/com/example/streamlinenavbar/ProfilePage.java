@@ -21,13 +21,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfilePage extends AppCompatActivity {
 
     EditText mEditText;
     Button btnLogout;
     TextView userTextView, emailTextView, ageTextView;
-
+    private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference userRef;
 
@@ -35,6 +40,9 @@ public class ProfilePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+
+        // Initialize Firebase Firestore
+        db = FirebaseFirestore.getInstance();
 
         // Initialize Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
@@ -125,6 +133,104 @@ public class ProfilePage extends AppCompatActivity {
             }
         });
 
+// Call the method to create the "users" collection if it doesn't exist
+        createUsersCollectionIfNotExist();
+    }
+    private void createUsersCollectionIfNotExist() {
+        db.collection("users").document("dummy").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (!task.getResult().exists()) {
+                            // "users" collection doesn't exist, create it
+                            Map<String, Object> dummyData = new HashMap<>();
+                            dummyData.put("dummyField", "dummyValue");
+                            db.collection("users").document("dummy").set(dummyData)
+                                    .addOnSuccessListener(aVoid -> {
+                                        // Collection created successfully
+                                        db.collection("users").document("dummy").delete()
+                                                .addOnSuccessListener(aVoid1 -> {
+                                                    // Dummy document deleted successfully
+                                                    Toast.makeText(ProfilePage.this, "Users collection created successfully", Toast.LENGTH_SHORT).show();
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    // Failed to delete dummy document
+                                                    Toast.makeText(ProfilePage.this, "Failed to delete dummy document", Toast.LENGTH_SHORT).show();
+                                                });
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        // Failed to create the collection
+                                        Toast.makeText(ProfilePage.this, "Failed to create 'users' collection", Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+                    } else {
+                        // Failed to retrieve document, show error message
+                        Toast.makeText(ProfilePage.this, "Failed to retrieve 'users' collection", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    public void save(View view) {
+        String aboutMe = mEditText.getText().toString();
+
+        // Get the current user
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        // Check if the user is authenticated
+        if (currentUser != null) {
+            // Get the user's unique ID
+            String userId = currentUser.getUid();
+
+            // Create a reference to the document for the current user in the "users" collection
+            DocumentReference userRef = db.collection("users").document(userId);
+
+            // Create a map to store the "aboutMe" field value
+            Map<String, Object> data = new HashMap<>();
+            data.put("aboutMe", aboutMe);
+
+            // Set the data for the current user
+            userRef.set(data)
+                    .addOnSuccessListener(aVoid -> {
+                        // Clear the EditText after saving
+                        mEditText.getText().clear();
+                        Toast.makeText(ProfilePage.this, "About Me saved successfully", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(ProfilePage.this, "Failed to save About Me", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(ProfilePage.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    public void load(View view) {
+        // Get the current user
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        // Check if the user is authenticated
+        if (currentUser != null) {
+            // Get the user's unique ID
+            String userId = currentUser.getUid();
+
+            // Create a reference to the document for the current user in the "users" collection
+            DocumentReference userRef = db.collection("users").document(userId);
+
+            // Retrieve the "aboutMe" field for the current user
+            userRef.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Get the "aboutMe" field value
+                            String aboutMe = documentSnapshot.getString("aboutMe");
+
+                            // Set the "aboutMe" value in the EditText
+                            mEditText.setText(aboutMe);
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(ProfilePage.this, "Failed to load About Me", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(ProfilePage.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+        }
     }
     @Override
     public void onBackPressed() {
