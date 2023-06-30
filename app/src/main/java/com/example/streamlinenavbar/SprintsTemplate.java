@@ -56,7 +56,6 @@ public class SprintsTemplate extends AppCompatActivity {
 
         setupRecyclerView(); // Add this line to set up the ItemTouchHelper
 
-
         EventChangeListener();
 
         sprintTasks = getIntent().getStringExtra("sprintTasks");
